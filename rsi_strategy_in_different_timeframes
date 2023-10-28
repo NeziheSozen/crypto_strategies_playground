@@ -1,0 +1,20 @@
+//@version=5
+strategy('RSI Strategy in Different Time Frames', shorttitle='RSI Strategy', overlay=true)
+
+// RSI with 4-hours
+rsi_4h = ta.rsi(close, 14)
+// RSI with 15-mins
+rsi_15m = ta.rsi(close, 14)
+
+// at least once, we need RSI >=70 in 4h timeframes
+var int rsi_4h_counter = 0
+if (rsi_4h >= 70)
+    rsi_4h_counter := rsi_4h_counter + 1
+
+long_condition = (rsi_15m <= 30 or rsi_15m == 30) and rsi_4h_counter > 0
+short_condition = (rsi_15m >= 70 or rsi_15m == 70) and rsi_4h_counter > 0
+
+plotshape(series=rsi_4h >= 70, title='RSI_4H_70_Cross', location=location.top, color=color.rgb(82, 128, 255), style=shape.flag, size=size.small)
+plotshape(series=long_condition, title="Long", location=location.belowbar, color=color.green, style=shape.cross, size=size.small)
+plotshape(series=short_condition, title="Short", location=location.abovebar, color=color.red, style=shape.xcross, size=size.small)
+
