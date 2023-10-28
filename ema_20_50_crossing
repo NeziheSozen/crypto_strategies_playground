@@ -1,0 +1,18 @@
+//@version=5
+indicator("EMA (20-50) Crossover", overlay=true)
+
+// EMA lengths
+ema5 = ta.ema(close, 5)
+ema20 = ta.ema(close, 20)
+
+// EMA crossing control
+emaCrossover = ta.crossover(ema5, ema20)
+emaCrossunder = ta.crossunder(ema5, ema20)
+
+// Alarms
+alertcondition(emaCrossover, title="EMA 5 Crosses Above EMA 20", message="EMA 5 has crossed ABOVE EMA 20")
+alertcondition(emaCrossunder, title="EMA 5 Crosses Below EMA 20", message="EMA 5 has crossed BELOW EMA 20")
+
+// EMA cross plottings
+plotshape(emaCrossover, style=shape.cross, location=location.belowbar, color=color.green, size=size.small)
+plotshape(emaCrossunder, style=shape.xcross, location=location.abovebar, color=color.red, size=size.small)
